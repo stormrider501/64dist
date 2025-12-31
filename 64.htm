@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bangladesh 64 Districts - Complete Information</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .search-box {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        #searchInput {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            outline: none;
+        }
+        
+        .filter-buttons {
+            text-align: center;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .filter-btn {
+            padding: 10px 20px;
+            background: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .districts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .district-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .district-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.25);
+        }
+        
+        .district-header {
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .district-name {
+            font-size: 1.5em;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .division-tag {
+            display: inline-block;
+            background: #f0f0f0;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            margin-top: 5px;
+            color: #666;
+        }
+        
+        .info-section {
+            margin: 15px 0;
+        }
+        
+        .info-label {
+            font-weight: bold;
+            color: #555;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            color: #333;
+            font-size: 1.1em;
+            padding: 5px 0;
+        }
+        
+        .weather-icon {
+            font-size: 2em;
+            margin: 10px 0;
+        }
+        
+        .historical-places {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        
+        .historical-places ul {
+            padding-left: 20px;
+            margin-top: 5px;
+        }
+        
+        .historical-places li {
+            margin: 5px 0;
+            color: #555;
+        }
+        
+        .loading {
+            text-align: center;
+            color: white;
+            font-size: 1.2em;
+            padding: 40px;
+        }
+        
+        .time-display {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #667eea;
+            margin: 10px 0;
+        }
+        
+        .sun-times {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+        
+        .sun-time {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .sun-icon {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+
+        .weather-loading {
+            color: #999;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+
+        .wind-info {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .districts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🇧🇩 Bangladesh 64 Districts</h1>
+            <p>Complete Information: Time, Weather, Sunrise/Sunset & Historical Places</p>
+        </header>
+        
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search districts...">
+        </div>
+        
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="filterDivision('all')">All Districts</button>
+            <button class="filter-btn" onclick="filterDivision('Dhaka')">Dhaka</button>
+            <button class="filter-btn" onclick="filterDivision('Chattogram')">Chattogram</button>
+            <button class="filter-btn" onclick="filterDivision('Rajshahi')">Rajshahi</button>
+            <button class="filter-btn" onclick="filterDivision('Khulna')">Khulna</button>
+            <button class="filter-btn" onclick="filterDivision('Barishal')">Barishal</button>
+            <button class="filter-btn" onclick="filterDivision('Sylhet')">Sylhet</button>
+            <button class="filter-btn" onclick="filterDivision('Rangpur')">Rangpur</button>
+            <button class="filter-btn" onclick="filterDivision('Mymensingh')">Mymensingh</button>
+        </div>
+        
+        <div class="districts-grid" id="districtsGrid">
+            <div class="loading">Loading districts data...</div>
+        </div>
+    </div>
+
+    <script>
+        const districts = [
+            { name: "Dhaka", division: "Dhaka", lat: 23.8103, lon: 90.4125, historical: ["Lalbagh Fort", "Ahsan Manzil", "National Parliament House", "Shaheed Minar"] },
+            { name: "Gazipur", division: "Dhaka", lat: 24.0022, lon: 90.4264, historical: ["Bhawal National Park", "Nuhash Polli", "Fantasy Kingdom"] },
+            { name: "Kishoreganj", division: "Dhaka", lat: 24.4260, lon: 90.7765, historical: ["Shiva Temple", "Pagla Mosque", "Gurudwara"] },
+            { name: "Manikganj", division: "Dhaka", lat: 23.8617, lon: 90.0003, historical: ["Baliati Zamindar Palace", "Tara Mosque"] },
+            { name: "Munshiganj", division: "Dhaka", lat: 23.5422, lon: 90.5305, historical: ["Idrakpur Fort", "Baba Adam Mosque"] },
+            { name: "Narayanganj", division: "Dhaka", lat: 23.6238, lon: 90.5000, historical: ["Panam City", "Sonakanda Fort"] },
+            { name: "Narsingdi", division: "Dhaka", lat: 23.9229, lon: 90.7176, historical: ["Wari-Bateshwar ruins", "Madhabdi Jamidar Bari"] },
+            { name: "Tangail", division: "Dhaka", lat: 24.2513, lon: 89.9167, historical: ["Atia Mosque", "Mojammel Haque Library", "Madhupur National Park"] },
+            { name: "Faridpur", division: "Dhaka", lat: 23.6070, lon: 89.8429, historical: ["Rajbari Palace", "Math Shishu Park"] },
+            { name: "Gopalganj", division: "Dhaka", lat: 23.0050, lon: 89.8266, historical: ["Bangabandhu Memorial Museum", "Ulpur Twin Temple"] },
+            { name: "Madaripur", division: "Dhaka", lat: 23.1641, lon: 90.1897, historical: ["Khankhanapur Dighi", "Kandua Mosque"] },
+            { name: "Rajbari", division: "Dhaka", lat: 23.7574, lon: 89.6444, historical: ["Rajbari Palace", "Padma River Bank"] },
+            { name: "Shariatpur", division: "Dhaka", lat: 23.2423, lon: 90.4348, historical: ["Naria Mosque", "Angaria Bazar Temple"] },
+            
+            { name: "Chattogram", division: "Chattogram", lat: 22.3569, lon: 91.7832, historical: ["Patenga Beach", "Foy's Lake", "Ethnological Museum", "WWII Cemetery"] },
+            { name: "Bandarban", division: "Chattogram", lat: 22.1953, lon: 92.2183, historical: ["Nilgiri Hills", "Boga Lake", "Golden Temple", "Nafakhum Waterfall"] },
+            { name: "Brahmanbaria", division: "Chattogram", lat: 23.9570, lon: 91.1119, historical: ["Ashuganj River Port", "Birishiri Tea Garden"] },
+            { name: "Chandpur", division: "Chattogram", lat: 23.2513, lon: 90.8518, historical: ["Meghna River", "Chandpur Park"] },
+            { name: "Cumilla", division: "Chattogram", lat: 23.4607, lon: 91.1809, historical: ["Mainamati Buddhist Monastery", "War Cemetery", "Lalmai Hills"] },
+            { name: "Cox's Bazar", division: "Chattogram", lat: 21.4272, lon: 92.0058, historical: ["Longest Sea Beach", "Himchari", "Inani Beach", "Sonadia Island"] },
+            { name: "Feni", division: "Chattogram", lat: 23.0159, lon: 91.3976, historical: ["Feni River", "Shahporan Mosque"] },
+            { name: "Khagrachari", division: "Chattogram", lat: 23.1193, lon: 91.9847, historical: ["Alutila Cave", "Hanging Bridge", "Richhang Waterfall"] },
+            { name: "Lakshmipur", division: "Chattogram", lat: 22.9447, lon: 90.8282, historical: ["Raipur Village", "Meghna River Bank"] },
+            { name: "Noakhali", division: "Chattogram", lat: 22.8696, lon: 91.0995, historical: ["Gandhi Ashram", "Bajra Shahi Mosque"] },
+            { name: "Rangamati", division: "Chattogram", lat: 22.6533, lon: 92.1753, historical: ["Kaptai Lake", "Hanging Bridge", "Rajban Vihara", "Shuvolong Waterfall"] },
+            
+            { name: "Rajshahi", division: "Rajshahi", lat: 24.3745, lon: 88.6042, historical: ["Varendra Research Museum", "Puthia Temple Complex", "Padma Garden"] },
+            { name: "Bogura", division: "Rajshahi", lat: 24.8465, lon: 89.3770, historical: ["Mahasthangarh", "Gokul Medh", "Vasu Vihara"] },
+            { name: "Joypurhat", division: "Rajshahi", lat: 25.0968, lon: 89.0227, historical: ["Paharpur Buddhist Monastery", "Panch Pir Mazar"] },
+            { name: "Naogaon", division: "Rajshahi", lat: 24.8132, lon: 88.9316, historical: ["Paharpur Buddhist Vihara (UNESCO)", "Kusumba Mosque", "Dibar Dighi"] },
+            { name: "Natore", division: "Rajshahi", lat: 24.4206, lon: 89.0000, historical: ["Uttara Gano Bhaban", "Rani Bhabani Palace", "Chalan Beel"] },
+            { name: "Chapainawabganj", division: "Rajshahi", lat: 24.5965, lon: 88.2775, historical: ["Kantaji Temple", "Sona Mosque (Golden Mosque)", "Tahkhana Complex"] },
+            { name: "Pabna", division: "Rajshahi", lat: 24.0064, lon: 89.2372, historical: ["Hardinge Bridge", "Mental Hospital Museum"] },
+            { name: "Sirajganj", division: "Rajshahi", lat: 24.4533, lon: 89.7006, historical: ["Bangabandhu Bridge", "Jamuna River"] },
+            
+            { name: "Khulna", division: "Khulna", lat: 22.8456, lon: 89.5403, historical: ["Sundarbans (UNESCO)", "Sixty Dome Mosque", "Khan Jahan Ali Tomb"] },
+            { name: "Bagerhat", division: "Khulna", lat: 22.6516, lon: 89.7851, historical: ["Sixty Dome Mosque (UNESCO)", "Khan Jahan Ali Mausoleum", "Nine Dome Mosque"] },
+            { name: "Chuadanga", division: "Khulna", lat: 23.6401, lon: 88.8410, historical: ["Damurhuda Shahi Mosque", "Matri Bhandari Mandir"] },
+            { name: "Jessore", division: "Khulna", lat: 23.1634, lon: 89.2182, historical: ["Jessore Cantonment", "Chanchara Shiva Temple"] },
+            { name: "Jhenaidah", division: "Khulna", lat: 23.5449, lon: 89.1539, historical: ["Shailkupa Thakur Bari", "Kartikpur Jorabari"] },
+            { name: "Kushtia", division: "Khulna", lat: 23.9011, lon: 89.1099, historical: ["Lalon Shah Shrine", "Shilaidaha Kuthibari (Tagore House)", "Hardinge Bridge"] },
+            { name: "Magura", division: "Khulna", lat: 23.4855, lon: 89.4198, historical: ["Mohammadpur Village", "Magura Town Hall"] },
+            { name: "Meherpur", division: "Khulna", lat: 23.7625, lon: 88.6318, historical: ["Mujibnagar Memorial", "Amjhupi Village"] },
+            { name: "Narail", division: "Khulna", lat: 23.1163, lon: 89.5840, historical: ["Victoria College", "Chitra River"] },
+            { name: "Satkhira", division: "Khulna", lat: 22.7185, lon: 89.0705, historical: ["Sundarbans Gateway", "Satkhira Eco Park"] },
+            
+            { name: "Barishal", division: "Barishal", lat: 22.7010, lon: 90.3535, historical: ["Durga Sagar", "Oxford Mission Church", "Guthia Mosque"] },
+            { name: "Barguna", division: "Barishal", lat: 22.1595, lon: 90.1120, historical: ["Patharghata Forest", "Bay of Bengal Coast"] },
+            { name: "Bhola", division: "Barishal", lat: 22.6859, lon: 90.6482, historical: ["Meghna River", "Dhal Char Island"] },
+            { name: "Jhalokati", division: "Barishal", lat: 22.6406, lon: 90.1987, historical: ["Rajapur Village", "Nabagram Mosque"] },
+            { name: "Patuakhali", division: "Barishal", lat: 22.3596, lon: 90.3298, historical: ["Kuakata Beach", "Lebur Bon Eco Park"] },
+            { name: "Pirojpur", division: "Barishal", lat: 22.5841, lon: 89.9720, historical: ["Swarupkati Float Market", "Pirojpur Stadium"] },
+            
+            { name: "Sylhet", division: "Sylhet", lat: 24.8949, lon: 91.8687, historical: ["Jaflong", "Ratargul Swamp Forest", "Shah Jalal Mazar", "Lawachara National Park"] },
+            { name: "Habiganj", division: "Sylhet", lat: 24.3745, lon: 91.4156, historical: ["Rema-Kalenga Wildlife Sanctuary", "Madhobpur Lake"] },
+            { name: "Moulvibazar", division: "Sylhet", lat: 24.4829, lon: 91.7314, historical: ["Lawachara Forest", "Madhabkunda Waterfall", "Tea Gardens"] },
+            { name: "Sunamganj", division: "Sylhet", lat: 25.0658, lon: 91.3950, historical: ["Tanguar Haor", "Shimul Bagan", "Niladri Lake"] },
+            
+            { name: "Rangpur", division: "Rangpur", lat: 25.7439, lon: 89.2752, historical: ["Tajhat Palace", "Carmichael College", "Kantaji Temple"] },
+            { name: "Dinajpur", division: "Rangpur", lat: 25.6217, lon: 88.6354, historical: ["Kantaji Temple", "Ramsagar National Park", "Dinajpur Rajbari"] },
+            { name: "Gaibandha", division: "Rangpur", lat: 25.3287, lon: 89.5282, historical: ["Gobindaganj Mosque", "Bamandanga"] },
+            { name: "Kurigram", division: "Rangpur", lat: 25.8072, lon: 89.6363, historical: ["Dharla Bridge", "Brahmaputra River"] },
+            { name: "Lalmonirhat", division: "Rangpur", lat: 25.9923, lon: 89.2847, historical: ["Teesta Barrage", "Kaliganj Border"] },
+            { name: "Nilphamari", division: "Rangpur", lat: 25.9319, lon: 88.8560, historical: ["Neel Sagor", "Chilahati Railway Station"] },
+            { name: "Panchagarh", division: "Rangpur", lat: 26.3411, lon: 88.5541, historical: ["Bhitargarh Fort", "Rocks Museum", "Mahipur Tea Estate"] },
+            { name: "Thakurgaon", division: "Rangpur", lat: 26.0336, lon: 88.4616, historical: ["Rani Bhawani Temple", "Jamaldaha Palace"] },
+            
+            { name: "Mymensingh", division: "Mymensingh", lat: 24.7471, lon: 90.4203, historical: ["Shashi Lodge", "Brahmaputra River", "Alexander Castle"] },
+            { name: "Jamalpur", division: "Mymensingh", lat: 24.9375, lon: 89.9377, historical: ["Jor Bangla Temple", "Laura Mission"] },
+            { name: "Netrokona", division: "Mymensingh", lat: 24.8104, lon: 90.7278, historical: ["Birisiri", "Someshwari River", "Garo Hills"] },
+            { name: "Sherpur", division: "Mymensingh", lat: 25.0204, lon: 90.0152, historical: ["Gajni Forest", "Madhabpur Village"] }
+        ];
+
+        let currentFilter = 'all';
+        const weatherCache = {};
+        
+        function getWeatherIcon(temp) {
+            if (temp > 32) return '☀️';
+            if (temp > 28) return '🌤️';
+            if (temp > 20) return '⛅';
+            return '☁️';
+        }
+        
+        function calculateSunTimes(lat, lon) {
+            const now = new Date();
+            const day = now.getDate();
+            const month = now.getMonth() + 1;
+            
+            const sunrise = new Date();
+            sunrise.setHours(6, 0 + (month - 1) * 2, 0);
+            
+            const sunset = new Date();
+            sunset.setHours(17, 45 - (month - 1) * 2, 0);
+            
+            return {
+                sunrise: sunrise.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+                sunset: sunset.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
+            };
+        }
+        
+        async function fetchWeatherData(lat, lon, districtName) {
+            const cacheKey = `${lat},${lon}`;
+            
+            if (weatherCache[cacheKey]) {
+                return weatherCache[cacheKey];
+            }
+            
+            try {
+                const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m`;
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                const weatherData = {
+                    temp: Math.round(data.current.temperature_2m),
+                    humidity: data.current.relative_humidity_2m,
+                    windSpeed: Math.round(data.current.wind_speed_10m * 10) / 10,
+                    condition: getWeatherCondition(data.current.temperature_2m)
+                };
+                
+                weatherCache[cacheKey] = weatherData;
+                return weatherData;
+            } catch (error) {
+                console.error(`Error fetching weather for ${districtName}:`, error);
+                return {
+                    temp: '--',
+                    humidity: '--',
+                    windSpeed: '--',
+                    condition: 'Unable to load'
+                };
+            }
+        }
+        
+        function getWeatherCondition(temp) {
+            if (temp > 35) return 'Very Hot';
+            if (temp > 30) return 'Hot';
+            if (temp > 25) return 'Warm';
+            if (temp > 20) return 'Pleasant';
+            if (temp > 15) return 'Cool';
+            return 'Cold';
+        }
+        
+        function getCurrentTime() {
+            return new Date().toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true 
+            });
+        }
+        
+        function createDistrictCard(district, weather = null) {
+            const sunTimes = calculateSunTimes(district.lat, district.lon);
+            const currentTime = getCurrentTime();
+            
+            const weatherHTML = weather ? `
+                <div class="weather-icon">${getWeatherIcon(weather.temp)}</div>
+                <div class="info-value">${weather.temp}°C - ${weather.condition}</div>
+                <div style="color: #666; font-size: 0.9em;">Humidity: ${weather.humidity}%</div>
+                <div class="wind-info">💨 Wind: ${weather.windSpeed} km/h</div>
+            ` : `
+                <div class="weather-loading">Loading weather data...</div>
+            `;
+            
+            return `
+                <div class="district-card" data-division="${district.division}" data-name="${district.name}">
+                    <div class="district-header">
+                        <div class="district-name">${district.name}</div>
+                        <span class="division-tag">${district.division} Division</span>
+                    </div>
+                    
+                    <div class="info-section">
+                        <div class="info-label">🕒 Current Time</div>
+                        <div class="time-display">${currentTime}</div>
+                    </div>
+                    
+                    <div class="sun-times">
+                        <div class="sun-time">
+                            <div class="sun-icon">🌅</div>
+                            <div class="info-label">Sunrise</div>
+                            <div class="info-value">${sunTimes.sunrise}</div>
+                        </div>
+                        <div class="sun-time">
+                            <div class="sun-icon">🌇</div>
+                            <div class="info-label">Sunset</div>
+                            <div class="info-value">${sunTimes.sunset}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-section">
+                        <div class="info-label">🌡️ Weather</div>
+                        ${weatherHTML}
+                    </div>
+                    
+                    <div class="historical-places">
+                        <div class="info-label">🏛️ Historical Places</div>
+                        <ul>
+                            ${district.historical.map(place => `<li>${place}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+        
+        async function loadWeatherForDistrict(district) {
+            const weather = await fetchWeatherData(district.lat, district.lon, district.name);
+            const card = document.querySelector(`.district-card[data-name="${district.name}"]`);
+            if (card) {
+                const weatherSection = card.querySelector('.info-section:last-of-type');
+                weatherSection.innerHTML = `
+                    <div class="info-label">🌡️ Weather</div>
+                    <div class="weather-icon">${getWeatherIcon(weather.temp)}</div>
+                    <div class="info-value">${weather.temp}°C - ${weather.condition}</div>
+                    <div style="color: #666; font-size: 0.9em;">Humidity: ${weather.humidity}%</div>
+                    <div class="wind-info">💨 Wind: ${weather.windSpeed} km/h</div>
+                `;
+            }
+        }
+        
+        function renderDistricts() {
+            const grid = document.getElementById('districtsGrid');
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            let filtered = districts.filter(d => {
+                const matchesSearch = d.name.toLowerCase().includes(searchTerm) || 
+                                     d.division.toLowerCase().includes(searchTerm);
+                const matchesDivision = currentFilter === 'all' || d.division === currentFilter;
+                return matchesSearch && matchesDivision;
+            });
+            
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div class="loading">No districts found</div>';
+                return;
+            }
+            
+            grid.innerHTML = filtered.map(d => createDistrictCard(d)).join('');
+            
+            filtered.forEach(district => {
+                loadWeatherForDistrict(district);
+            });
+        }
+        
+        function filterDivision(division) {
+            currentFilter = division;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            renderDistricts();
+        }
+        
+        document.getElementById('searchInput').addEventListener('input', renderDistricts);
+        
+        setInterval(() => {
+            document.querySelectorAll('.time-display').forEach(el => {
+                el.textContent = getCurrentTime();
+            });
+        }, 1000);
+        
+        renderDistricts();
+    </script>
+</body>
+</html>
