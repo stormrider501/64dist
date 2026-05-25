@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>64dist - Interactive Web Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">64dist</div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#interactive" class="nav-link">Interactive</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">
+                <span class="sun-icon">☀️</span>
+                <span class="moon-icon">🌙</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Welcome to 64dist</h1>
+            <p class="hero-subtitle">Experience interactive design with smooth animations</p>
+            <button class="cta-button">Get Started</button>
+        </div>
+        <div class="hero-background">
+            <div class="floating-shape shape-1"></div>
+            <div class="floating-shape shape-2"></div>
+            <div class="floating-shape shape-3"></div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <h2 class="section-title">Features</h2>
+        <div class="features-grid">
+            <div class="feature-card" data-feature="responsive">
+                <div class="feature-icon">📱</div>
+                <h3>Responsive Design</h3>
+                <p>Works perfectly on all devices and screen sizes</p>
+            </div>
+            <div class="feature-card" data-feature="smooth">
+                <div class="feature-icon">✨</div>
+                <h3>Smooth Animations</h3>
+                <p>Beautiful transitions and interactive elements</p>
+            </div>
+            <div class="feature-card" data-feature="dark">
+                <div class="feature-icon">🌙</div>
+                <h3>Dark Mode</h3>
+                <p>Easy on the eyes with automatic theme switching</p>
+            </div>
+            <div class="feature-card" data-feature="fast">
+                <div class="feature-icon">⚡</div>
+                <h3>Lightning Fast</h3>
+                <p>Optimized performance for quick loading</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Section -->
+    <section id="interactive" class="interactive-section">
+        <h2 class="section-title">Interactive Elements</h2>
+        
+        <div class="interactive-container">
+            <!-- Button Animation Demo -->
+            <div class="demo-box">
+                <h3>Animated Buttons</h3>
+                <div class="button-group">
+                    <button class="btn btn-primary">Primary Button</button>
+                    <button class="btn btn-secondary">Secondary Button</button>
+                    <button class="btn btn-success">Success Button</button>
+                </div>
+            </div>
+
+            <!-- Color Picker -->
+            <div class="demo-box">
+                <h3>Color Picker</h3>
+                <div class="color-picker-container">
+                    <input type="color" id="colorPicker" value="#6366f1" class="color-picker">
+                    <div id="colorDisplay" class="color-display"></div>
+                    <p id="colorValue" class="color-value">#6366f1</p>
+                </div>
+            </div>
+
+            <!-- Counter -->
+            <div class="demo-box">
+                <h3>Interactive Counter</h3>
+                <div class="counter-container">
+                    <button class="counter-btn" id="decrementBtn">−</button>
+                    <div id="counterDisplay" class="counter-display">0</div>
+                    <button class="counter-btn" id="incrementBtn">+</button>
+                </div>
+                <button class="counter-btn reset-btn" id="resetBtn">Reset</button>
+            </div>
+
+            <!-- Slider -->
+            <div class="demo-box">
+                <h3>Range Slider</h3>
+                <input type="range" id="rangeSlider" class="slider" min="0" max="100" value="50">
+                <p class="slider-value">Value: <span id="sliderValue">50</span>%</p>
+            </div>
+
+            <!-- Animated Progress Bar -->
+            <div class="demo-box">
+                <h3>Progress Bar</h3>
+                <button class="btn btn-primary" id="progressBtn">Start Progress</button>
+                <div class="progress-bar-container">
+                    <div id="progressBar" class="progress-bar"></div>
+                </div>
+                <p id="progressText" class="progress-text">0%</p>
+            </div>
+
+            <!-- Typewriter Effect -->
+            <div class="demo-box">
+                <h3>Typewriter Effect</h3>
+                <p id="typewriter" class="typewriter"></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <h2 class="section-title">Get In Touch</h2>
+        <form class="contact-form" id="contactForm">
+            <div class="form-group">
+                <input type="text" placeholder="Your Name" required class="form-input">
+            </div>
+            <div class="form-group">
+                <input type="email" placeholder="Your Email" required class="form-input">
+            </div>
+            <div class="form-group">
+                <textarea placeholder="Your Message" rows="5" required class="form-textarea"></textarea>
+            </div>
+            <button type="submit" class="cta-button">Send Message</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 64dist. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
